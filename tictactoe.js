@@ -1,14 +1,16 @@
-BOARD_WIDTH = 300;
-BOARD_HEIGHT = 300;
+"use strict";
 
-SQUARE_SIDE = BOARD_HEIGHT / 3;
+var BOARD_WIDTH = 300;
+var BOARD_HEIGHT = 300;
 
-WIN_STATES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
-              [0, 3, 6], [1, 4, 7], [2, 5, 8],
-              [0, 4, 8], [2, 4, 6]];
+var SQUARE_SIDE = BOARD_HEIGHT / 3;
 
-boardX = 0;
-boardY = 0;
+var WIN_STATES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+                  [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                  [0, 4, 8], [2, 4, 6]];
+
+var boardX = 0;
+var boardY = 0;
 
 function drawX(ctx, x, y) {
   ctx.save();
