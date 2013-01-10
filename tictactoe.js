@@ -91,7 +91,7 @@ function ready() {
   canvas.addEventListener("click", function(e) {
     var gridIndex = getGridIndex(e);
 
-    if (gridIndex != null) {
+    if (gridIndex != null && board[gridIndex] == 0) {
       board[gridIndex] = currentPlayer;
       currentPlayer *= -1;
     }
