@@ -52,11 +52,38 @@ function drawBoard(ctx, board) {
   ctx.restore();
 
   for (i = 0; i < board.length; i++) {
-    if (board[i] == 1) {
+    if (board[i] === 1) {
       drawX(ctx, BOARD_X + (i % 3) * SQUARE_SIDE, BOARD_Y + Math.floor(i / 3) * SQUARE_SIDE);
-    } else if (board[i] == -1) {
+    } else if (board[i] === -1) {
       drawO(ctx, BOARD_X + (i % 3) * SQUARE_SIDE, BOARD_Y + Math.floor(i / 3) * SQUARE_SIDE);
     }
+  }
+
+  var winState = gameIsOver(board);
+
+  if (winState && winState !== true) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.translate(BOARD_X, BOARD_Y);
+
+    if (winState[2] - winState[0] === 2) {
+      var y = (0.5 + winState[0] / 3) * SQUARE_SIDE + 0.5;
+      ctx.moveTo(0, y);
+      ctx.lineTo(BOARD_WIDTH, y);
+    } else if (winState[2] - winState[0] === 6) {
+      var x = (0.5 + winState[0] % 3) * SQUARE_SIDE + 0.5;
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, BOARD_HEIGHT);
+    } else if (winState[0] == 0) {
+      ctx.moveTo(0, 0);
+      ctx.lineTo(BOARD_WIDTH, BOARD_HEIGHT);
+    } else {
+      ctx.moveTo(BOARD_WIDTH, 0);
+      ctx.lineTo(0, BOARD_HEIGHT);
+    }
+
+    ctx.stroke();
+    ctx.restore();
   }
 }
 
@@ -84,12 +111,18 @@ function getGridIndex(e) {
 function gameIsOver(board) {
   for (var i = 0; i < WIN_STATES.length; i++) {
     var s = WIN_STATES[i];
-    if (Math.abs(board[s[0]] + board[s[1]] + board[s[2]]) == 3) {
+    if (Math.abs(board[s[0]] + board[s[1]] + board[s[2]]) === 3) {
       return s;
     }
   }
 
-  return false;
+  for (i = 0; i < board.length; i++) {
+    if (!board[i]) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 function ready() {
@@ -110,7 +143,7 @@ function ready() {
     } else {
       var gridIndex = getGridIndex(e);
 
-      if (gridIndex != null && board[gridIndex] == 0) {
+      if (gridIndex != null && board[gridIndex] === 0) {
         board[gridIndex] = currentPlayer;
         currentPlayer *= -1;
       }
