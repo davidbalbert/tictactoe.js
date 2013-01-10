@@ -1,9 +1,8 @@
 (function () {
     "use strict";
 
-    var BOARD_WIDTH = 300;
-    var BOARD_HEIGHT = 300;
-    var SQUARE_SIDE = BOARD_HEIGHT / 3;
+    var BOARD_SIDE = 300;
+    var SQUARE_SIDE = BOARD_SIDE / 3;
 
     var WIN_STATES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
                       [0, 3, 6], [1, 4, 7], [2, 5, 8],
@@ -40,16 +39,16 @@
         ctx.beginPath();
         ctx.translate(boardX, boardY);
 
-        ctx.clearRect(-5, -5, BOARD_WIDTH + 10, BOARD_HEIGHT + 10);
+        ctx.clearRect(-5, -5, BOARD_SIDE + 10, BOARD_SIDE + 10);
 
         for (i = 1; i < 3; i++) {
-            ctx.moveTo((BOARD_WIDTH / 3) * i + 0.5, 0);
-            ctx.lineTo((BOARD_WIDTH / 3) * i + 0.5, BOARD_HEIGHT);
+            ctx.moveTo((BOARD_SIDE / 3) * i + 0.5, 0);
+            ctx.lineTo((BOARD_SIDE / 3) * i + 0.5, BOARD_SIDE);
         }
 
         for (i = 1; i < 3; i++) {
-            ctx.moveTo(0, (BOARD_HEIGHT / 3) * i + 0.5);
-            ctx.lineTo(BOARD_WIDTH, (BOARD_HEIGHT / 3) * i + 0.5);
+            ctx.moveTo(0, (BOARD_SIDE / 3) * i + 0.5);
+            ctx.lineTo(BOARD_SIDE, (BOARD_SIDE / 3) * i + 0.5);
         }
 
         ctx.stroke();
@@ -74,17 +73,17 @@
             if (winState[2] - winState[0] === 2) {
                 var y = (0.5 + winState[0] / 3) * SQUARE_SIDE + 0.5;
                 ctx.moveTo(0, y);
-                ctx.lineTo(BOARD_WIDTH, y);
+                ctx.lineTo(BOARD_SIDE, y);
             } else if (winState[2] - winState[0] === 6) {
                 var x = (0.5 + winState[0] % 3) * SQUARE_SIDE + 0.5;
                 ctx.moveTo(x, 0);
-                ctx.lineTo(x, BOARD_HEIGHT);
+                ctx.lineTo(x, BOARD_SIDE);
             } else if (winState[0] === 0) {
                 ctx.moveTo(0, 0);
-                ctx.lineTo(BOARD_WIDTH, BOARD_HEIGHT);
+                ctx.lineTo(BOARD_SIDE, BOARD_SIDE);
             } else {
-                ctx.moveTo(BOARD_WIDTH, 0);
-                ctx.lineTo(0, BOARD_HEIGHT);
+                ctx.moveTo(BOARD_SIDE, 0);
+                ctx.lineTo(0, BOARD_SIDE);
             }
 
             ctx.stroke();
@@ -94,9 +93,9 @@
 
     function isWithinBoard(e) {
         return e.offsetX > boardX &&
-            e.offsetX < boardX + BOARD_WIDTH &&
+            e.offsetX < boardX + BOARD_SIDE &&
             e.offsetY > boardY &&
-            e.offsetY < boardY + BOARD_HEIGHT;
+            e.offsetY < boardY + BOARD_SIDE;
     }
 
     function getGridIndex(e) {
@@ -135,8 +134,8 @@
         var canvas = document.getElementById("c");
         var ctx = canvas.getContext("2d");
 
-        boardX = (canvas.width - BOARD_WIDTH) / 2;
-        boardY = (canvas.height - BOARD_HEIGHT) / 2;
+        boardX = (canvas.width - BOARD_SIDE) / 2;
+        boardY = (canvas.height - BOARD_SIDE) / 2;
 
         var board = [0,0,0,0,0,0,0,0,0];
         var currentPlayer = 1;
