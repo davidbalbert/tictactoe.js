@@ -3,7 +3,6 @@
 
     var BOARD_WIDTH = 300;
     var BOARD_HEIGHT = 300;
-
     var SQUARE_SIDE = BOARD_HEIGHT / 3;
 
     var WIN_STATES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -28,20 +27,22 @@
     function drawO(ctx, x, y) {
         ctx.save();
         ctx.beginPath();
-        ctx.translate(x, y)
+        ctx.translate(x, y);
         ctx.arc(SQUARE_SIDE / 2, SQUARE_SIDE / 2, SQUARE_SIDE / 2, 0, Math.PI * 2, true);
         ctx.stroke();
         ctx.restore();
     }
 
     function drawBoard(ctx, board) {
+        var i;
+
         ctx.save();
         ctx.beginPath();
         ctx.translate(boardX, boardY);
 
         ctx.clearRect(-5, -5, BOARD_WIDTH + 10, BOARD_HEIGHT + 10);
 
-        for (var i = 1; i < 3; i++) {
+        for (i = 1; i < 3; i++) {
             ctx.moveTo((BOARD_WIDTH / 3) * i + 0.5, 0);
             ctx.lineTo((BOARD_WIDTH / 3) * i + 0.5, BOARD_HEIGHT);
         }
@@ -78,7 +79,7 @@
                 var x = (0.5 + winState[0] % 3) * SQUARE_SIDE + 0.5;
                 ctx.moveTo(x, 0);
                 ctx.lineTo(x, BOARD_HEIGHT);
-            } else if (winState[0] == 0) {
+            } else if (winState[0] === 0) {
                 ctx.moveTo(0, 0);
                 ctx.lineTo(BOARD_WIDTH, BOARD_HEIGHT);
             } else {
@@ -113,7 +114,8 @@
     }
 
     function gameIsOver(board) {
-        for (var i = 0; i < WIN_STATES.length; i++) {
+        var i;
+        for (i = 0; i < WIN_STATES.length; i++) {
             var s = WIN_STATES[i];
             if (Math.abs(board[s[0]] + board[s[1]] + board[s[2]]) === 3) {
                 return s;
@@ -150,7 +152,7 @@
             } else {
                 var gridIndex = getGridIndex(e);
 
-                if (gridIndex != null && board[gridIndex] === 0) {
+                if (gridIndex !== null && board[gridIndex] === 0) {
                     board[gridIndex] = currentPlayer;
                     currentPlayer *= -1;
                 }
