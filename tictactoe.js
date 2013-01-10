@@ -6,6 +6,10 @@ BOARD_HEIGHT = 300;
 
 SQUARE_SIDE = BOARD_HEIGHT / 3;
 
+WIN_STATES = [[0, 1, 2], [3, 4, 5], [6, 7, 8],
+              [0, 3, 6], [1, 4, 7], [2, 5, 8],
+              [0, 4, 8], [2, 4, 6]];
+
 function drawX(ctx, x, y) {
   ctx.save();
   ctx.beginPath();
@@ -56,7 +60,7 @@ function drawBoard(ctx, board) {
   }
 }
 
-function withinBoard(e) {
+function isWithinBoard(e) {
   return e.offsetX > BOARD_X &&
     e.offsetX < BOARD_X + BOARD_WIDTH &&
     e.offsetY > BOARD_Y &&
@@ -64,7 +68,7 @@ function withinBoard(e) {
 }
 
 function getGridIndex(e) {
-  if (!withinBoard(e)) {
+  if (!isWithinBoard(e)) {
     return null;
   } else {
     var x = e.offsetX - BOARD_X;
@@ -75,6 +79,17 @@ function getGridIndex(e) {
 
     return row * 3 + col;
   }
+}
+
+function gameIsOver(board) {
+  for (var i = 0; i < WIN_STATES.length; i++) {
+    var s = WIN_STATES[i];
+    if (Math.abs(board[s[0]] + board[s[1]] + board[s[2]]) == 3) {
+      return s;
+    }
+  }
+
+  return false;
 }
 
 function ready() {
@@ -89,11 +104,16 @@ function ready() {
   });
 
   canvas.addEventListener("click", function(e) {
-    var gridIndex = getGridIndex(e);
+    if (gameIsOver(board)) {
+      board = [0,0,0,0,0,0,0,0,0];
+      currentPlayer = 1;
+    } else {
+      var gridIndex = getGridIndex(e);
 
-    if (gridIndex != null && board[gridIndex] == 0) {
-      board[gridIndex] = currentPlayer;
-      currentPlayer *= -1;
+      if (gridIndex != null && board[gridIndex] == 0) {
+        board[gridIndex] = currentPlayer;
+        currentPlayer *= -1;
+      }
     }
 
     drawBoard(ctx, board);
