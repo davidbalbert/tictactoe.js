@@ -64,6 +64,7 @@ function drawBoard(ctx, board) {
   if (winState && winState !== true) {
     ctx.save();
     ctx.beginPath();
+    ctx.strokeStyle = "red";
     ctx.translate(boardX, boardY);
 
     if (winState[2] - winState[0] === 2) {
