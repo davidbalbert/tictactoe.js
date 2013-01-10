@@ -89,8 +89,6 @@ function ready() {
   });
 
   canvas.addEventListener("click", function(e) {
-    e.preventDefault();
-
     var gridIndex = getGridIndex(e);
 
     if (gridIndex != null) {
